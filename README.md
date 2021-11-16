@@ -5,4 +5,4 @@ Repo for my INF1407 G2 assignment.
 João Victor Galindo Borges do Rego - 1621146
 
 ## Tema
-**TBD**
+Um site de reviews de jogos estilo IMDB, onde usuários podem se registrar, dar notas e escrever reviews para jogos
