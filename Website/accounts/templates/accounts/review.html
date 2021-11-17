@@ -1,0 +1,56 @@
+{%  extends 'accounts/main.html' %}
+
+{% block content %}
+
+<br>
+<div class="row">
+	<div class="col">
+		<div class="card card-body">
+			<h1>{{game}}</h1>
+			<h4>Review by {{review}}</h4>
+		</div>
+	</div>
+
+</div>
+<br>
+
+<div class="row">
+	<div class="col-md">
+		<div class="card card-body">
+			<table class="table table-sm">
+				<tr>
+					<th>Genre</th>
+					<th>Platform</th>
+					<th>Release Date</th>
+					<th>Score</th>
+				</tr>
+
+				<tr>
+					<td>{{genre}}</td>
+					<td>{{platform}}</td>
+					<td>{{game.release_date}}</td>
+					<td>{{review.score}}</td>
+				</tr>
+
+			</table>
+		</div>
+	</div>
+</div>
+<br>
+
+<div class="row">
+	<div class="col">
+		<div class="card card-body">
+			<p>{{review.comments}}</p>
+			<br>
+			<table class="table table-sm">
+				<tr>
+					<td><a class="btn btn-sm btn-info" href="{% url 'update_review' review.id %}">Edit</a></td>
+					<td><a class="btn btn-sm btn-danger" href="{% url 'delete_review' review.id %}">Delete</a></td>
+				</tr>
+			</table>
+		</div>
+	</div>
+
+</div>
+{% endblock %}

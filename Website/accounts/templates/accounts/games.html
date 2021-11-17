@@ -1,7 +1,49 @@
-{% extends 'accounts/main.html' %}
+{%  extends 'accounts/main.html' %}
 
 {% block content %}
 
-<p>Games</p>
+<br>
+<div class="row">
+	<div class="col">
+		<div class="card card-body">
+			<form method="get">
+				{{filter.form}}
+		    <button class="btn btn-primary" type="submit">Search</button>
+		  </form>
+		</div>
+	</div>
+</div>
+<br>
 
-{% endblock %}
+<div class="row">
+	<div class="col-md">
+		<div class="card card-body">
+			<h5>Games</h5>
+		</div>
+		<div class="card card-body">
+			<table class="table">
+				<tr>
+					<th>Game</th>
+					<th>Genre</th>
+					<th>Platform</th>
+					<th>Release Date</th>
+					<th>Score</th>
+				</tr>
+
+				{% for g in games %}
+					<tr>
+						<td>{{g.name}}</td>
+						<td>{{g.genre.name}}</td>
+						<td>{{g.platform.name}}</td>
+						<td>{{g.release_date}}</td>
+						<td>{{g.score}}</td>
+					</tr>
+				{% endfor %}
+
+			</table>
+		</div>
+	</div>
+
+</div>
+
+{% endblock content %}
