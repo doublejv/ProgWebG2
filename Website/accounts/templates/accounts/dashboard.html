@@ -19,6 +19,7 @@
 
 				{% for g in games %}
 				<tr>
+					<td><a class="btn btn-sm btn-info" href="{% url 'game' g.id %}">View</a></td>
 					<td>{{g.name}}</td>
 					<td>{{g.name}}</td>
 				</tr>

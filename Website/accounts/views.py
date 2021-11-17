@@ -30,6 +30,16 @@ def games_page(request):
     return render(request, 'accounts/games.html', context)
 
 
+def game_page(request, id):
+    game = Game.objects.get(id=id)
+    genre = game.genre
+    platform = game.platform
+
+    context = {'game': game, 'genre': genre, 'platform': platform}
+
+    return render(request, 'accounts/game.html', context)
+
+
 def reviews_page(request, id):
     review = Review.objects.get(id=id)
     game = review.game
