@@ -1,5 +1,13 @@
 {% load static %}
 
+<style>
+  .user-id-msg{
+    font-size: 18px;
+    color: #fff;
+    margin-right: 20px;
+  }
+</style>
+
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
   <img src="{% static 'images/Gameblade_Logo.png' %}" style="width: 12vw;min-width: 12px;"/>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -32,4 +40,8 @@
       <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
     </form>
   </div>
+
+  <span class="user-id-msg">Logged in as {{request.user}}</span>
+  <span><a class="user-id-msg" href="{% url 'logout' %}">Logout</a></span>
+
 </nav>
