@@ -24,9 +24,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-3^$k1f&w)be)p^p3((=m*^w_+get04h)53wso%mtd@cz(ty4&d'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['gameblade.herokuapp.com', '127.0.0.1']
 
 
 # Application definition
