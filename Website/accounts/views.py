@@ -12,15 +12,20 @@ from .filters import *
 
 @login_required(login_url='login')
 def home_page(request):
-    games = Game.objects.all()
-    reviews = Review.objects.all()
+    games = Game.objects.all().order_by('-date_created')
+    reviews = Review.objects.all().order_by('-date_created')
     users = User.objects.all()
 
     total_games = games.count()
     total_reviews = reviews.count()
     total_users = users.count()
 
-    context = {'games': games, 'reviews': reviews, 'users': users, 'total_games': total_games, 'total_reviews': total_reviews, 'total_users': total_users}
+    context = {'games': games,
+               'reviews': reviews,
+               'users': users,
+               'total_games': total_games,
+               'total_reviews': total_reviews,
+               'total_users': total_users}
 
     return render(request, 'accounts/dashboard.html', context)
 
@@ -82,10 +87,11 @@ def games_page(request):
 @login_required(login_url='login')
 def game_page(request, id):
     game = Game.objects.get(id=id)
+    reviews = Review.objects.all().filter(game=id).order_by('-date_created')
     genre = game.genre
     platform = game.platform
 
-    context = {'game': game, 'genre': genre, 'platform': platform}
+    context = {'game': game, 'genre': genre, 'platform': platform, 'reviews': reviews}
 
     return render(request, 'accounts/game.html', context)
 
@@ -110,7 +116,9 @@ def write_review(request):
         form = ReviewForm(request.POST)
 
         if form.is_valid():
-            form.save()
+            review = form.save(commit=False)
+            review.user = request.user
+            review.save()
             return redirect('/')
 
     context = {'form': form}
@@ -120,25 +128,95 @@ def write_review(request):
 @login_required(login_url='login')
 def update_review(request, id):
     review = Review.objects.get(id=id)
-    form = ReviewForm(instance=review)
 
-    if request.method == 'POST':
-        form = ReviewForm(request.POST, instance=review)
+    if review.user == request.user or request.user.is_superuser:
+        form = ReviewForm(instance=review)
 
-        if form.is_valid():
-            form.save()
-            return redirect('/')
+        if request.method == 'POST':
+            form = ReviewForm(request.POST, instance=review)
 
-    context = {'form': form}
-    return render(request, 'accounts/review_form.html', context)
+            if form.is_valid():
+                form.save()
+                return redirect('/')
+
+        context = {'form': form}
+        return render(request, 'accounts/review_form.html', context)
+
+    else:
+        messages.info(request, 'You do not have permission to edit this review')
+        return reviews_page(request, id)
 
 
 @login_required(login_url='login')
 def delete_review(request, id):
     review = Review.objects.get(id=id)
-    if request.method == 'POST':
-        review.delete()
+
+    if review.user == request.user or request.user.is_superuser:
+        if request.method == 'POST':
+            review.delete()
+            return redirect('/')
+
+        context = {'item': review}
+        return render(request, 'accounts/delete.html', context)
+
+    else:
+        messages.info(request, 'You do not have permission to delete this review')
+        return reviews_page(request, id)
+
+
+@login_required(login_url='login')
+def register_game(request):
+    form = GameForm()
+
+    if request.user.is_superuser:
+        if request.method == 'POST':
+            form = GameForm(request.POST)
+
+            if form.is_valid():
+                form.save()
+                return redirect('/')
+
+        context = {'form': form}
+        return render(request, 'accounts/game_form.html', context)
+
+    else:
+        messages.info(request, 'You do not have permission to register a game')
         return redirect('/')
 
-    context = {'item': review}
-    return render(request, 'accounts/delete.html', context)
+
+@login_required(login_url='login')
+def update_game(request, id):
+    game = Game.objects.get(id=id)
+    form = GameForm(instance=game)
+
+    if request.user.is_superuser:
+        if request.method == 'POST':
+            form = GameForm(request.POST, instance=game)
+
+            if form.is_valid():
+                form.save()
+                return redirect('/')
+
+        context = {'form': form}
+        return render(request, 'accounts/game_form.html', context)
+
+    else:
+        messages.info(request, 'You do not have permission to edit a game')
+        return game_page(request, id)
+
+
+@login_required(login_url='login')
+def delete_game(request, id):
+    game = Game.objects.get(id=id)
+
+    if request.user.is_superuser:
+        if request.method == 'POST':
+            game.delete()
+            return redirect('/')
+
+        context = {'item': game}
+        return render(request, 'accounts/delete.html', context)
+
+    else:
+        messages.info(request, 'You do not have permission to delete a game')
+        return game_page(request, id)

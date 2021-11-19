@@ -1,13 +1,26 @@
 {%  extends 'accounts/main.html' %}
 
 {% block content %}
+<head><title>Gameblade - {{game}} reviewed by {{review.user}}</title></head>
+
+<style>
+	#messages{
+			background-color: grey;
+			color: #fff;
+			padding: 10px;
+			margin-top: 10px;
+		}
+</style>
+{% for m in messages %}
+	<p id="messages">{{m}}</p>
+{% endfor %}
 
 <br>
 <div class="row">
 	<div class="col">
 		<div class="card card-body">
 			<h1>{{game}}</h1>
-			<h4>Review by {{review}}</h4>
+			<h4>Review by {{review.user}}</h4>
 		</div>
 	</div>
 

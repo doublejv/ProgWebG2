@@ -1,4 +1,6 @@
 from django.db import models
+from django.core.validators import MinValueValidator, MaxValueValidator
+from django.db.models import Avg
 from django.contrib.auth.models import User
 
 # Create your models here.
@@ -24,7 +26,7 @@ class Game(models.Model):
     genre = models.ForeignKey(Genre, null=True, on_delete=models.SET_NULL)
     platform = models.ForeignKey(Platform, null=True, on_delete=models.SET_NULL)
     release_date = models.DateField(null=True)
-    score = models.FloatField(default=0, null=True)
+    # score = models.FloatField(default=0, null=True)
     date_created = models.DateTimeField(auto_now_add=True, null=True)
 
     def __str__(self):
@@ -46,8 +48,8 @@ class Review(models.Model):
     )
 
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    game = models.ForeignKey(Game, null=True, on_delete=models.CASCADE)
-    score = models.IntegerField(choices=SCORE)
+    game = models.ForeignKey(Game, on_delete=models.CASCADE)
+    score = models.IntegerField(choices=SCORE, validators=[MinValueValidator(1), MaxValueValidator(10)])
     comments = models.CharField(max_length=1024, null=True, blank=True)
     date_created = models.DateTimeField(auto_now_add=True, null=True)
 

@@ -1,7 +1,23 @@
 {% extends 'accounts/main.html' %}
 
 {% block content %}
+
+<style>
+	#messages{
+			background-color: grey;
+			color: #fff;
+			padding: 10px;
+			margin-top: 10px;
+		}
+</style>
+{% for m in messages %}
+<p id="messages">{{m}}</p>
+{% endfor %}
+
 {% include 'accounts/status.html' %}
+
+<head><title>Gameblade</title></head>
+
 
 <br>
 
@@ -10,17 +26,16 @@
 		<h5>GAMES:</h5>
 		<hr>
 		<div class="card card-body">
-			<a class="btn btn-primary  btn-sm btn-block" href="">Register a Game</a>
+			<a class="btn btn-primary  btn-sm btn-block" href="{% url 'register_game' %}">Register a Game</a>
 			<table class="table table-sm">
 				<tr>
+					<th></th>
 					<th>Games</th>
-					<th>Reviews</th>
 				</tr>
 
 				{% for g in games %}
 				<tr>
 					<td><a class="btn btn-sm btn-info" href="{% url 'game' g.id %}">View</a></td>
-					<td>{{g.name}}</td>
 					<td>{{g.name}}</td>
 				</tr>
 				{% endfor %}
@@ -30,16 +45,18 @@
 	</div>
 
 	<div class="col-md-7">
-		<h5>LAST 5 REVIEWS:</h5>
+		<h5>LATEST REVIEWS:</h5>
 		<hr>
 		<div class="card card-body">
 			<a class="btn btn-primary  btn-sm btn-block" href="{% url 'write_review' %}">Write a Review</a>
 			<table class="table table-sm">
 				<tr>
+					<th></th>
 					<th>Game</th>
 					<th>Genre</th>
 					<th>Platform</th>
 					<th>Score</th>
+					<th>Reviewed By</th>
 				</tr>
 
 				{% for r in reviews %}
@@ -49,6 +66,7 @@
 					<td>{{r.game.genre.name}}</td>
 					<td>{{r.game.platform.name}}</td>
 					<td>{{r.score}}</td>
+					<td>{{r.user}}</td>
 				</tr>
 				{% endfor %}
 

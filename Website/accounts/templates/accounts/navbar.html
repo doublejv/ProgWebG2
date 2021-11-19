@@ -20,28 +20,18 @@
         <a class="nav-link" href="{% url 'homepage' %}">Home Page</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="{% url 'homepage' %}">Log In</a>
-      </li>
-      <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          Games
-        </a>
-        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-          <a class="dropdown-item" href="#">Most Played</a>
-          <div class="dropdown-divider"></div>
-          <a class="dropdown-item" href="#">Top Rated</a>
-          <div class="dropdown-divider"></div>
-          <a class="dropdown-item" href="#">Lowest Rated</a>
-        </div>
+        <a class="nav-link" href="{% url 'games' %}">Games</a>
       </li>
     </ul>
-    <form class="form-inline my-2 my-lg-0">
-      <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-      <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-    </form>
+    <span>
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item active">
+          <a class="nav-link">Logged in as {{request.user}}</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'logout' %}">Logout</a>
+        </li>
+      </ul>
+    </span>
   </div>
-
-  <span class="user-id-msg">Logged in as {{request.user}}</span>
-  <span><a class="user-id-msg" href="{% url 'logout' %}">Logout</a></span>
-
 </nav>

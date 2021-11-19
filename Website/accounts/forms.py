@@ -9,6 +9,13 @@ class ReviewForm(ModelForm):
     class Meta:
         model = Review
         fields = '__all__'
+        exclude = ['user']
+
+
+class GameForm(ModelForm):
+    class Meta:
+        model = Game
+        fields = '__all__'
 
 
 class UserForm(UserCreationForm):

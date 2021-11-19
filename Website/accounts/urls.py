@@ -14,5 +14,9 @@ urlpatterns = [
 
     path('write_review/', views.write_review, name="write_review"),
     path('update_review/<str:id>', views.update_review, name="update_review"),
-    path('delete_review/<str:id>', views.delete_review, name="delete_review")
+    path('delete_review/<str:id>', views.delete_review, name="delete_review"),
+
+    path('register_game/', views.register_game, name="register_game"),
+    path('update_game/<str:id>', views.update_game, name="update_game"),
+    path('delete_game/<str:id>', views.delete_game, name="delete_game")
 ]
